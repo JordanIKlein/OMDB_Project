@@ -25,6 +25,7 @@ jobs:
 
     - name: Run main.py
       env:
+        GIT_API_KEY: ${{secrets.GIT_API_KEY}}
         API_KEY: ${{ secrets.API_KEY }}
         MOVIE_TITLE: ${{ github.event.issue.body }}
         ISSUE_NUMBER: ${{ github.event.issue.number }}

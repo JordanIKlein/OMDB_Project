@@ -5,7 +5,7 @@ import logging
 # Requesting Data
 BASE_URL =  f"http://www.omdbapi.com/"
 API_KEY = os.environ['API_KEY']
-GIT_API_KEY = os.environment['GIT_API_KEY']
+GIT_API_KEY = os.environ['GIT_API_KEY']
 ISSUE_NUMBER = os.getenv('ISSUE_NUMBER')
 movie_title = os.getenv('MOVIE_TITLE')
 owner = "JordanIKlein"
