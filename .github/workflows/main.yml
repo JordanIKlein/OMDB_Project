@@ -1,0 +1,31 @@
+name: Getting Movie Information
+
+on:
+  issues:
+    types: [opened, reopened]
+env:
+  GITHUB_ISSUE_NUMBER: ${{ github.event.issue.number }}
+jobs:
+  run-main:
+    runs-on: [self-hosted]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.12
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt  # If you have any dependencies, replace 'requirements.txt' with your actual file name
+
+    - name: Run main.py
+      env:
+        API_KEY: ${{ secrets.API_KEY }}
+        MOVIE_TITLE: ${{ github.event.issue.body }}
+        ISSUE_NUMBER: ${{ github.event.issue.number }}
+      run: python main.py
