@@ -19,28 +19,27 @@ def retrieve_movie_data():
     print("Movie Title: " + movie_title)
     if response.status_code == 200:
         response_json = response.json()
-        if response_json["Response"] == "True":
-            logging.info("Successfully found movie...")
-            #Extract Movie Information
-            # Extract specific information
-            title = response_json['Title']
-            released = response_json['Released']
-            director = response_json['Director']
-            actors = response_json['Actors']
-            runtime = response_json['Runtime']
-            genre = response_json['Genre']
-            plot = response_json['Plot']
-            extracted_text = f"Title: {title}\nReleased: {released}\nDirector: {director}\nActors: {actors}\nRuntime: {runtime}\nGenre: {genre}\nPlot: {plot}\n"
-            creating_issue_comment(extracted_text)
-        else:
-            logging.info("Movie not found. Returning issue comment with response...")
-            creating_issue_comment("Movie not found, perhaps try a different spelling?")
+        logging.info("Successfully found movie...")
+        #Extract Movie Information
+        # Extract specific information
+        title = response_json['Title']
+        released = response_json['Released']
+        director = response_json['Director']
+        actors = response_json['Actors']
+        runtime = response_json['Runtime']
+        genre = response_json['Genre']
+        plot = response_json['Plot']
+        extracted_text = f"Title: {title}\nReleased: {released}\nDirector: {director}\nActors: {actors}\nRuntime: {runtime}\nGenre: {genre}\nPlot: {plot}\n"
+        print(extracted_text)
+        creating_issue_comment(extracted_text)
     else: 
-        print(response.status_code)    
+        logging.info("Movie not found. Returning issue comment with response...")
+        creating_issue_comment("Movie not found, perhaps try a different spelling?")  
 
 def creating_issue_comment(text):
     # GitHub API endpoint for creating a comment on an issue
     url = f"https://api.github.com/repos/{owner}/{repo}/issues/{ISSUE_NUMBER}/comments"
+    print(url)
     # Comment data
     comment_data = {
         "body": text
