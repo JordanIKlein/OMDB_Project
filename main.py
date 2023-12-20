@@ -16,23 +16,26 @@ def retrieve_movie_data():
     headers = {'Content-Type': 'application/json'}
     response = requests.request("GET", url, headers=headers)
     #Response always returns 200 status code. Look for Response key in JSON.
-    response_json = response.json()
-    if response_json["Response"] == "True":
-        logging.info("Successfully found movie...")
-        #Extract Movie Information
-        # Extract specific information
-        title = response_json['Title']
-        released = response_json['Released']
-        director = response_json['Director']
-        actors = response_json['Actors']
-        runtime = response_json['Runtime']
-        genre = response_json['Genre']
-        plot = response_json['Plot']
-        extracted_text = f"Title: {title}\nReleased: {released}\nDirector: {director}\nActors: {actors}\nRuntime: {runtime}\nGenre: {genre}\nPlot: {plot}\n"
-        creating_issue_comment(extracted_text)
-    else:
-        logging.info("Movie not found. Returning issue comment with response...")
-        creating_issue_comment("Movie not found, perhaps try a different spelling?")
+    if response.status_code == 200:
+        response_json = response.json()
+        if response_json["Response"] == "True":
+            logging.info("Successfully found movie...")
+            #Extract Movie Information
+            # Extract specific information
+            title = response_json['Title']
+            released = response_json['Released']
+            director = response_json['Director']
+            actors = response_json['Actors']
+            runtime = response_json['Runtime']
+            genre = response_json['Genre']
+            plot = response_json['Plot']
+            extracted_text = f"Title: {title}\nReleased: {released}\nDirector: {director}\nActors: {actors}\nRuntime: {runtime}\nGenre: {genre}\nPlot: {plot}\n"
+            creating_issue_comment(extracted_text)
+        else:
+            logging.info("Movie not found. Returning issue comment with response...")
+            creating_issue_comment("Movie not found, perhaps try a different spelling?")
+    else: 
+        print(response.status_code)    
 
 def creating_issue_comment(text):
     # GitHub API endpoint for creating a comment on an issue
