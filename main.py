@@ -38,8 +38,6 @@ def retrieve_movie_data():
 
 def creating_issue_comment(text):
     url = f"https://api.github.com/repos/{owner}/{repo}/issues/{ISSUE_NUMBER}/comments"
-    print(url)
-    print(text)
     # Comment data
     comment_data = {
         "body": text
@@ -51,10 +49,10 @@ def creating_issue_comment(text):
     }
     # Make the API request to create a comment
     response = requests.post(url.format(owner=owner, repo=repo, issue_number=ISSUE_NUMBER), json=comment_data, headers=headers)
-    print(response)
     # Check the response status
     if response.status_code == 201:
         print("Comment created successfully.")
+        print("Closing Issue...")
         closing_an_issue()
     else:
         print(f"Error: {response.status_code}")
@@ -65,7 +63,7 @@ def closing_an_issue():
     github_api_url = f'https://api.github.com/repos/{owner}/{repo}/issues/{ISSUE_NUMBER}'
 
     # GitHub personal access token for authentication
-    access_token = 'your_personal_access_token'
+    access_token = GIT_API_KEY
 
     # Headers for the request, including the authorization header with the token
     headers = {
