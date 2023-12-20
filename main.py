@@ -16,6 +16,7 @@ def retrieve_movie_data():
     headers = {'Content-Type': 'application/json'}
     response = requests.request("GET", url, headers=headers)
     #Response always returns 200 status code. Look for Response key in JSON.
+    print("Movie Title: " + movie_title)
     if response.status_code == 200:
         response_json = response.json()
         if response_json["Response"] == "True":

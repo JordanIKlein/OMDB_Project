@@ -24,10 +24,16 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt  # If you have any dependencies, replace 'requirements.txt' with your actual file name
 
+    - name: Extract movie title
+      id: extract_movie_title
+      run: |
+        MOVIE_TITLE=$(echo "${{ github.event.issue.body }}" | awk '/movie_input:/ {getline; print}' | tr -d '[:space:]')
+        echo "MOVIE_TITLE=$MOVIE_TITLE" >> $GITHUB_ENV
+
     - name: Run main.py
       env:
         GIT_API_KEY: ${{secrets.GIT_API_KEY}}
         API_KEY: ${{ secrets.API_KEY }}
-        MOVIE_TITLE: ${{ github.event.issue.body }}
+        MOVIE_TITLE: ${{ env.MOVIE_TITLE }}
         ISSUE_NUMBER: ${{ github.event.issue.number }}
       run: python main.py
