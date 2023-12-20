@@ -6,7 +6,7 @@ on:
 env:
   GITHUB_ISSUE_NUMBER: ${{ github.event.issue.number }}
 jobs:
-  run-main:
+  Getting_Movie_Info:
     runs-on: self-hosted
 
     steps:
@@ -27,8 +27,9 @@ jobs:
     - name: Extract movie title
       id: extract_movie_title
       run: |
-        MOVIE_TITLE=$(echo "${{ github.event.issue.body }}" | awk '/movie_input:/ {getline; print}' | tr -d '[:space:]')
-        echo "MOVIE_TITLE=$MOVIE_TITLE" >> $GITHUB_ENV
+        $movieTitle = ((Get-Content $env:GITHUB_EVENT_PATH) -match 'movie_input:(.*)' | Out-Null; $matches[1].Trim())
+        echo "MOVIE_TITLE=$movieTitle" >> $env:GITHUB_ENV
+      
 
     - name: Run main.py
       env:

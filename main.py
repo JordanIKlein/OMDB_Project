@@ -56,6 +56,7 @@ def creating_issue_comment(text):
     # Check the response status
     if response.status_code == 201:
         print("Comment created successfully.")
+        closing_an_issue()
         #Close issue
     else:
         print(f"Error: {response.status_code}")
