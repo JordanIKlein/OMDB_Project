@@ -9,7 +9,7 @@ GIT_API_KEY = os.environ['GIT_API_KEY']
 ISSUE_NUMBER = os.getenv('ISSUE_NUMBER')
 movie_title = os.getenv('MOVIE_TITLE')
 owner = "JordanIKlein"
-repo = "OMDB_API"
+repo = "OMDB_Project"
 
 def retrieve_movie_data():
     url = BASE_URL + f"?t={movie_title}&apikey={API_KEY}&plot=full"
@@ -37,9 +37,9 @@ def retrieve_movie_data():
         creating_issue_comment("Movie not found, perhaps try a different spelling?")  
 
 def creating_issue_comment(text):
-    # GitHub API endpoint for creating a comment on an issue
     url = f"https://api.github.com/repos/{owner}/{repo}/issues/{ISSUE_NUMBER}/comments"
     print(url)
+    print(text)
     # Comment data
     comment_data = {
         "body": text
@@ -51,12 +51,11 @@ def creating_issue_comment(text):
     }
     # Make the API request to create a comment
     response = requests.post(url.format(owner=owner, repo=repo, issue_number=ISSUE_NUMBER), json=comment_data, headers=headers)
-
+    print(response)
     # Check the response status
     if response.status_code == 201:
         print("Comment created successfully.")
         closing_an_issue()
-        #Close issue
     else:
         print(f"Error: {response.status_code}")
         print(response.text)
