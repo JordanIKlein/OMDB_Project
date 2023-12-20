@@ -17,10 +17,11 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: 3.12
-
+    
     - name: Install dependencies
       run: |
-        python3 -m pip install --upgrade pip
+        python --version
+        python -m pip install --upgrade pip
         pip install -r requirements.txt  # If you have any dependencies, replace 'requirements.txt' with your actual file name
 
     - name: Run main.py
@@ -29,4 +30,4 @@ jobs:
         API_KEY: ${{ secrets.API_KEY }}
         MOVIE_TITLE: ${{ github.event.issue.body }}
         ISSUE_NUMBER: ${{ github.event.issue.number }}
-      run: python3 main.py
+      run: python main.py
