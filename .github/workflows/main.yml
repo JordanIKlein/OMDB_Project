@@ -27,9 +27,8 @@ jobs:
     - name: Extract movie title
       id: extract_movie_title
       run: |
-        $movieTitle = Get-Content $env:GITHUB_EVENT_PATH | Out-String | Select-String -Pattern '<([^>]+)>' | ForEach-Object { $_.Matches.Groups[1].Value.Trim() }
+        $movieTitle = Get-Content $env:GITHUB_EVENT_PATH | Out-String | Select-String -Pattern '"([^"]+)"' | ForEach-Object { $_.Matches.Groups[1].Value.Trim() }
         echo "MOVIE_TITLE=$movieTitle" >> $env:GITHUB_ENV
-      
       
     - name: Run main.py
       env:
