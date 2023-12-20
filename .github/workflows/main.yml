@@ -30,10 +30,6 @@ jobs:
         $ISSUE_BODY = Get-Content $env:GITHUB_EVENT_PATH | ConvertFrom-Json | Select-Object -ExpandProperty issue | Select-Object -ExpandProperty body
         $MOVIE_TITLE = $ISSUE_BODY -match 'movie_input: "(.+)"' | Out-Null; $matches[1].Trim()
         echo "MOVIE_TITLE=$MOVIE_TITLE" >> $env:GITHUB_ENV
-
-    - name: Display movie title
-      run: |
-        echo "Movie Title: $env:MOVIE_TITLE"
       
     - name: Run main.py
       env:
