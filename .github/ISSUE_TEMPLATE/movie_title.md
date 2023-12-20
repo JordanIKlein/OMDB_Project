@@ -7,7 +7,7 @@ labels: 'movie'
 ---
 <!-- 
 ## Description
-Enter your movie title after the colon where it says <Title>. Please keep these characters < >. Thanks!
+Enter your movie title after the colon where it says "Title". Please keep these characters " ". Thanks!
 -->
 ```yaml
 movie_input: "Title of Movie"
