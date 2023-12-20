@@ -27,7 +27,7 @@ jobs:
     - name: Extract movie title
       id: extract_movie_title
       run: |
-        $ISSUE_BODY = Get-Content $env:GITHUB_EVENT_PATH | ConvertFrom-Json | Select-Object -ExpandProperty issue -ExpandProperty body
+        $ISSUE_BODY = Get-Content $env:GITHUB_EVENT_PATH | ConvertFrom-Json | Select-Object -ExpandProperty issue | Select-Object -ExpandProperty body
         $MOVIE_TITLE = $ISSUE_BODY -match 'movie_input: "(.+)"' | Out-Null; $matches[1].Trim()
         echo "MOVIE_TITLE=$MOVIE_TITLE" >> $env:GITHUB_ENV
 
