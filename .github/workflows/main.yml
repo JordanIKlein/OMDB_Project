@@ -28,7 +28,9 @@ jobs:
       id: extract_movie_title
       run: |
         $movieTitle = Select-String -Path $env:GITHUB_EVENT_PATH -Pattern 'movie_input:(.*)' | ForEach-Object { $_.Matches.Groups[1].Value.Trim() }
+        $movieTitle = $movieTitle -replace "`r`n", ""  # Remove newline characters
         echo "MOVIE_TITLE=$movieTitle" >> $env:GITHUB_ENV
+      
 
     - name: Run main.py
       env:
