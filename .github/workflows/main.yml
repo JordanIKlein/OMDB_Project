@@ -27,9 +27,13 @@ jobs:
     - name: Extract movie title
       id: extract_movie_title
       run: |
-        ISSUE_BODY=$(cat $GITHUB_EVENT_PATH | jq -r .issue.body)
-        MOVIE_TITLE=$(echo "$ISSUE_BODY" | grep -oP '(?<=movie_input: ")[^"]+(?=")')
-        echo "MOVIE_TITLE=$MOVIE_TITLE" >> $GITHUB_ENV
+        $ISSUE_BODY = Get-Content $env:GITHUB_EVENT_PATH | ConvertFrom-Json | Select-Object -ExpandProperty issue -ExpandProperty body
+        $MOVIE_TITLE = $ISSUE_BODY -match 'movie_input: "(.+)"' | Out-Null; $matches[1].Trim()
+        echo "MOVIE_TITLE=$MOVIE_TITLE" >> $env:GITHUB_ENV
+
+    - name: Display movie title
+      run: |
+        echo "Movie Title: $env:MOVIE_TITLE"
       
     - name: Run main.py
       env:
