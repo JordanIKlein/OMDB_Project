@@ -16,10 +16,9 @@ def retrieve_movie_data():
     headers = {'Content-Type': 'application/json'}
     response = requests.request("GET", url, headers=headers)
     #Response always returns 200 status code. Look for Response key in JSON.
-    print("Movie Title: " + movie_title)
     if response.status_code == 200:
         response_json = response.json()
-        logging.info("Successfully found movie...")
+        print("Successfully retrieved movie data...")
         #Extract Movie Information
         # Extract specific information
         title = response_json['Title']
@@ -30,10 +29,9 @@ def retrieve_movie_data():
         genre = response_json['Genre']
         plot = response_json['Plot']
         extracted_text = f"Title: {title}\nReleased: {released}\nDirector: {director}\nActors: {actors}\nRuntime: {runtime}\nGenre: {genre}\nPlot: {plot}\n"
-        print(extracted_text)
         creating_issue_comment(extracted_text)
     else: 
-        logging.info("Movie not found. Returning issue comment with response...")
+        print("Movie not found. Returning issue comment with response...")
         creating_issue_comment("Movie not found, perhaps try a different spelling?")  
 
 def creating_issue_comment(text):
@@ -52,7 +50,6 @@ def creating_issue_comment(text):
     # Check the response status
     if response.status_code == 201:
         print("Comment created successfully.")
-        print("Closing Issue...")
         closing_an_issue()
     else:
         print(f"Error: {response.status_code}")
